@@ -166,6 +166,7 @@ function renderBoard(board, size, imageSrc, containerId) {
 function handleBoardMove(index, containerId) {
   const board = containerId === 'puzzle-one-board' ? state.boardOne : state.boardTwo;
   const size = containerId === 'puzzle-one-board' ? 3 : 4;
+  const imageSrc = containerId === 'puzzle-one-board' ? PHOTO_ONE : PHOTO_TWO;
   const emptyIndex = board.indexOf(0);
   const validMoves = getValidMoves(emptyIndex, size);
 
