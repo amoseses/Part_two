@@ -15,6 +15,8 @@ const state = {
   boardTwo: [],
   moveOne: 0,
   moveTwo: 0,
+  pieceNumbersOne: {}, // Map piece elements to their correct numbers
+  pieceNumbersTwo: {}, // Map piece elements to their correct numbers
 };
 
 const starContainer = document.querySelector('.stars');
@@ -123,11 +125,22 @@ function makeShuffledBoard(size) {
   return board;
 }
 
-function isSolved(board) {
-  for (let i = 0; i < board.length - 1; i += 1) {
-    if (board[i] !== i + 1) return false;
-  }
-  return board[board.length - 1] === 0;
+// Check if all pieces are in correct positions
+function checkPuzzleCompletion(containerId) {
+  const container = document.getElementById(containerId);
+  const tiles = container.querySelectorAll('.tile:not(.empty)');
+  let allCorrect = true;
+
+  tiles.forEach(tile => {
+    const correctNumber = parseInt(tile.dataset.correctNumber);
+    const currentPosition = Array.from(tiles).indexOf(tile) + 1;
+    
+    if (correctNumber !== currentPosition) {
+      allCorrect = false;
+    }
+  });
+
+  return allCorrect;
 }
 
 function renderBoard(board, size, imageSrc, containerId) {
@@ -143,6 +156,9 @@ function renderBoard(board, size, imageSrc, containerId) {
     tile.style.height = `${tileSize}%`;
     tile.style.left = `${(index % size) * tileSize}%`;
     tile.style.top = `${Math.floor(index / size) * tileSize}%`;
+    
+    // Assign the correct number to this piece
+    tile.dataset.correctNumber = value;
 
     if (value === 0) {
       tile.classList.add('empty');
@@ -175,7 +191,8 @@ function handleBoardMove(index, containerId) {
     document.getElementById('moves-one').textContent = String(state.moveOne);
     renderBoard(board, 3, PHOTO_ONE, 'puzzle-one-board');
 
-    if (isSolved(board)) {
+    // Continuous check for completion
+    if (checkPuzzleCompletion('puzzle-one-board')) {
       console.log('Puzzle One Solved!');
       setTimeout(() => {
         initPuzzleTwo();
@@ -187,7 +204,8 @@ function handleBoardMove(index, containerId) {
     document.getElementById('moves-two').textContent = String(state.moveTwo);
     renderBoard(board, 4, PHOTO_TWO, 'puzzle-two-board');
 
-    if (isSolved(board)) {
+    // Continuous check for completion
+    if (checkPuzzleCompletion('puzzle-two-board')) {
       console.log('Puzzle Two Solved!');
       setTimeout(() => {
         setScreen('final');
