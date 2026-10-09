@@ -41,10 +41,10 @@
           <h2>The answer is hidden in your memories.</h2>
 
           <div class="code-display" aria-live="polite">
-            <span class="digit-slot" data-slot="0">•</span>
-            <span class="digit-slot" data-slot="1">•</span>
-            <span class="digit-slot" data-slot="2">•</span>
-            <span class="digit-slot" data-slot="3">•</span>
+            <span class="digit-slot">•</span>
+            <span class="digit-slot">•</span>
+            <span class="digit-slot">•</span>
+            <span class="digit-slot">•</span>
           </div>
 
           <p id="passcode-feedback" class="feedback" aria-live="polite"></p>
@@ -66,14 +66,6 @@
         </div>
       </main>
 
-      <main class="screen" id="unlock-screen">
-        <div class="card unlock-card">
-          <p class="eyebrow">Unlocked</p>
-          <h2>I knew you could figure it out. There's something I want you to discover.</h2>
-          <button class="primary-btn" id="lets-find-out">Let's find out</button>
-        </div>
-      </main>
-
       <main class="screen" id="puzzle-one-screen">
         <div class="card puzzle-card">
           <div class="puzzle-header">
@@ -82,28 +74,15 @@
               <h2>Piece together the memory.</h2>
             </div>
             <div class="header-actions">
-              <button class="mini-btn" id="preview-one-toggle">Preview</button>
               <button class="mini-btn" id="restart-one">Restart</button>
             </div>
           </div>
 
-          <div class="upload-block">
-            <label for="photo-upload-1">Choose your first photo</label>
-            <input id="photo-upload-1" type="file" accept="image/*" />
-          </div>
-
           <div class="puzzle-meta">
             <div class="stat">Moves: <span id="moves-one">0</span></div>
-            <button class="hint-btn" id="hint-one">Need a hint?</button>
           </div>
 
-          <div class="puzzle-board outer-shadow" id="puzzle-one-board" aria-label="Sliding puzzle board"></div>
-
-          <div class="complete-reveal hidden" id="puzzle-one-reveal">
-            <p>Word revealed</p>
-            <div class="reveal-word">EIGHT</div>
-            <button class="primary-btn" id="continue-to-puzzle-two">Continue</button>
-          </div>
+          <div class="puzzle-board" id="puzzle-one-board" aria-label="Sliding puzzle board"></div>
         </div>
       </main>
 
@@ -115,28 +94,15 @@
               <h2>Finish the final picture.</h2>
             </div>
             <div class="header-actions">
-              <button class="mini-btn" id="preview-two-toggle">Preview</button>
               <button class="mini-btn" id="restart-two">Restart</button>
             </div>
           </div>
 
-          <div class="upload-block">
-            <label for="photo-upload-2">Choose your second photo</label>
-            <input id="photo-upload-2" type="file" accept="image/*" />
-          </div>
-
           <div class="puzzle-meta">
             <div class="stat">Moves: <span id="moves-two">0</span></div>
-            <button class="hint-btn" id="hint-two">Need a hint?</button>
           </div>
 
-          <div class="puzzle-board puzzle-board-large outer-shadow" id="puzzle-two-board" aria-label="Picture puzzle board"></div>
-
-          <div class="complete-reveal hidden" id="puzzle-two-reveal">
-            <p>Word revealed</p>
-            <div class="reveal-word">DAYS</div>
-            <button class="primary-btn" id="show-final-message">See the full message</button>
-          </div>
+          <div class="puzzle-board puzzle-board-large" id="puzzle-two-board" aria-label="Picture puzzle board"></div>
         </div>
       </main>
 
@@ -150,7 +116,7 @@
             <span>DAYS</span>
           </div>
 
-          <p class="final-note">You’ve solved the clues. Save this for the final part.</p>
+          <p class="final-note">You've solved the clues. Save this for the final part.</p>
         </div>
       </main>
     </div>
