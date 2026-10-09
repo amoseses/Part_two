@@ -15,8 +15,6 @@ const state = {
   boardTwo: [],
   moveOne: 0,
   moveTwo: 0,
-  pieceNumbersOne: {}, // Map piece elements to their correct numbers
-  pieceNumbersTwo: {}, // Map piece elements to their correct numbers
 };
 
 const starContainer = document.querySelector('.stars');
@@ -125,22 +123,21 @@ function makeShuffledBoard(size) {
   return board;
 }
 
-// Check if all pieces are in correct positions
-function checkPuzzleCompletion(containerId) {
-  const container = document.getElementById(containerId);
-  const tiles = container.querySelectorAll('.tile:not(.empty)');
-  let allCorrect = true;
-
-  tiles.forEach(tile => {
-    const correctNumber = parseInt(tile.dataset.correctNumber);
-    const currentPosition = Array.from(tiles).indexOf(tile) + 1;
-    
-    if (correctNumber !== currentPosition) {
-      allCorrect = false;
+// Check if all pieces are in correct positions (comparing board state)
+function checkPuzzleCompletion(board, size) {
+  for (let i = 0; i < board.length - 1; i++) {
+    if (board[i] !== i + 1) {
+      console.log(`Piece ${board[i]} at position ${i}, should be ${i + 1}`);
+      return false;
     }
-  });
-
-  return allCorrect;
+  }
+  // Empty space (0) should be at the end
+  if (board[board.length - 1] !== 0) {
+    console.log('Empty space not at end');
+    return false;
+  }
+  console.log('All pieces in correct positions!');
+  return true;
 }
 
 function renderBoard(board, size, imageSrc, containerId) {
@@ -192,8 +189,8 @@ function handleBoardMove(index, containerId) {
     renderBoard(board, 3, PHOTO_ONE, 'puzzle-one-board');
 
     // Continuous check for completion
-    if (checkPuzzleCompletion('puzzle-one-board')) {
-      console.log('Puzzle One Solved!');
+    if (checkPuzzleCompletion(board, 3)) {
+      console.log('Puzzle One Solved! Moving to Puzzle Two...');
       setTimeout(() => {
         initPuzzleTwo();
         setScreen('puzzleTwo');
@@ -205,8 +202,8 @@ function handleBoardMove(index, containerId) {
     renderBoard(board, 4, PHOTO_TWO, 'puzzle-two-board');
 
     // Continuous check for completion
-    if (checkPuzzleCompletion('puzzle-two-board')) {
-      console.log('Puzzle Two Solved!');
+    if (checkPuzzleCompletion(board, 4)) {
+      console.log('Puzzle Two Solved! Moving to final screen...');
       setTimeout(() => {
         setScreen('final');
       }, 550);
