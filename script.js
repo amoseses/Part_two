@@ -1,6 +1,4 @@
 const PASSCODE = '0121';
-const PHRASE_ONE = 'EIGHT';
-const PHRASE_TWO = 'DAYS';
 
 const screens = {
   opening: document.getElementById('opening-screen'),
@@ -17,15 +15,12 @@ const state = {
   boardTwo: [],
   moveOne: 0,
   moveTwo: 0,
-  puzzleOneSolved: false,
-  puzzleTwoSolved: false,
 };
 
 const starContainer = document.querySelector('.stars');
 const feedbackBox = document.getElementById('passcode-feedback');
 const digitSlots = document.querySelectorAll('.digit-slot');
 
-// Use the actual photos from the repo assets
 const PHOTO_ONE = './assets/IMG_4509.JPG';
 const PHOTO_TWO = './assets/IMG_5309.JPG';
 
@@ -193,7 +188,6 @@ function handleBoardMove(index, containerId) {
     renderBoard(board, 3, PHOTO_ONE, 'puzzle-one-board');
 
     if (isSolved(board)) {
-      state.puzzleOneSolved = true;
       setTimeout(() => {
         initPuzzleTwo();
         setScreen('puzzleTwo');
@@ -228,14 +222,6 @@ function bindEvents() {
   document.getElementById('open-clue-button').addEventListener('click', () => setScreen('passcode'));
   document.getElementById('restart-one').addEventListener('click', initPuzzleOne);
   document.getElementById('restart-two').addEventListener('click', initPuzzleTwo);
-
-  document.getElementById('hint-one').addEventListener('click', () => {
-    alert('Try to complete the edges first, then work toward the center.');
-  });
-
-  document.getElementById('hint-two').addEventListener('click', () => {
-    alert('Start with the corners and edges, then build inward. You\'re so close!');
-  });
 }
 
 function init() {
