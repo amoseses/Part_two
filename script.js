@@ -32,18 +32,6 @@ function setScreen(name) {
   }
 }
 
-function createStars() {
-  for (let i = 0; i < 120; i += 1) {
-    const star = document.createElement('span');
-    star.className = 'star';
-    star.style.left = `${Math.random() * 100}%`;
-    star.style.top = `${Math.random() * 100}%`;
-    star.style.opacity = (Math.random() * 0.8 + 0.2).toString();
-    star.style.animationDelay = `${(Math.random() * 3).toFixed(2)}s`;
-    starContainer.appendChild(star);
-  }
-}
-
 function updateCodeDisplay() {
   digitSlots.forEach((slot, index) => {
     slot.textContent = index < state.currentCode.length ? state.currentCode[index] : '•';
@@ -225,7 +213,6 @@ function bindEvents() {
 }
 
 function init() {
-  createStars();
   addKeypadListeners();
   bindEvents();
   updateCodeDisplay();
