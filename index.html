@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Part Two</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="stars" aria-hidden="true"></div>
+    <div class="app-shell">
+      <main class="screen active" id="opening-screen">
+        <div class="card intro-card">
+          <div class="envelope-wrap">
+            <div class="envelope-glow"></div>
+            <div class="envelope">
+              <div class="envelope-flap"></div>
+              <div class="envelope-letter">
+                <span>part two</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="eyebrow">A little mystery for you</p>
+          <h1>Welcome to part two</h1>
+          <p class="lead">I hope you found the right code.</p>
+
+          <button class="primary-btn" id="open-clue-button">Open your next clue</button>
+        </div>
+      </main>
+
+      <main class="screen" id="passcode-screen">
+        <div class="card passcode-card">
+          <p class="eyebrow">Passcode</p>
+          <h2>The answer is hidden in your memories.</h2>
+
+          <div class="code-display" aria-live="polite">
+            <span class="digit-slot" data-slot="0">•</span>
+            <span class="digit-slot" data-slot="1">•</span>
+            <span class="digit-slot" data-slot="2">•</span>
+            <span class="digit-slot" data-slot="3">•</span>
+          </div>
+
+          <p id="passcode-feedback" class="feedback" aria-live="polite"></p>
+
+          <div class="keypad" aria-label="Number keypad">
+            <button class="key" data-value="1">1</button>
+            <button class="key" data-value="2">2</button>
+            <button class="key" data-value="3">3</button>
+            <button class="key" data-value="4">4</button>
+            <button class="key" data-value="5">5</button>
+            <button class="key" data-value="6">6</button>
+            <button class="key" data-value="7">7</button>
+            <button class="key" data-value="8">8</button>
+            <button class="key" data-value="9">9</button>
+            <button class="key action" data-action="clear">Clear</button>
+            <button class="key" data-value="0">0</button>
+            <button class="key action" data-action="backspace">⌫</button>
+          </div>
+        </div>
+      </main>
+
+      <main class="screen" id="unlock-screen">
+        <div class="card unlock-card">
+          <p class="eyebrow">Unlocked</p>
+          <h2>I knew you could figure it out. There's something I want you to discover.</h2>
+          <button class="primary-btn" id="lets-find-out">Let's find out</button>
+        </div>
+      </main>
+
+      <main class="screen" id="puzzle-one-screen">
+        <div class="card puzzle-card">
+          <div class="puzzle-header">
+            <div>
+              <p class="eyebrow">Clue one</p>
+              <h2>Piece together the memory.</h2>
+            </div>
+            <div class="header-actions">
+              <button class="mini-btn" id="preview-one-toggle">Preview</button>
+              <button class="mini-btn" id="restart-one">Restart</button>
+            </div>
+          </div>
+
+          <div class="upload-block">
+            <label for="photo-upload-1">Choose your first photo</label>
+            <input id="photo-upload-1" type="file" accept="image/*" />
+          </div>
+
+          <div class="puzzle-meta">
+            <div class="stat">Moves: <span id="moves-one">0</span></div>
+            <button class="hint-btn" id="hint-one">Need a hint?</button>
+          </div>
+
+          <div class="puzzle-board outer-shadow" id="puzzle-one-board" aria-label="Sliding puzzle board"></div>
+
+          <div class="complete-reveal hidden" id="puzzle-one-reveal">
+            <p>Word revealed</p>
+            <div class="reveal-word">EIGHT</div>
+            <button class="primary-btn" id="continue-to-puzzle-two">Continue</button>
+          </div>
+        </div>
+      </main>
+
+      <main class="screen" id="puzzle-two-screen">
+        <div class="card puzzle-card">
+          <div class="puzzle-header">
+            <div>
+              <p class="eyebrow">Clue two</p>
+              <h2>Finish the final picture.</h2>
+            </div>
+            <div class="header-actions">
+              <button class="mini-btn" id="preview-two-toggle">Preview</button>
+              <button class="mini-btn" id="restart-two">Restart</button>
+            </div>
+          </div>
+
+          <div class="upload-block">
+            <label for="photo-upload-2">Choose your second photo</label>
+            <input id="photo-upload-2" type="file" accept="image/*" />
+          </div>
+
+          <div class="puzzle-meta">
+            <div class="stat">Moves: <span id="moves-two">0</span></div>
+            <button class="hint-btn" id="hint-two">Need a hint?</button>
+          </div>
+
+          <div class="puzzle-board puzzle-board-large outer-shadow" id="puzzle-two-board" aria-label="Picture puzzle board"></div>
+
+          <div class="complete-reveal hidden" id="puzzle-two-reveal">
+            <p>Word revealed</p>
+            <div class="reveal-word">DAYS</div>
+            <button class="primary-btn" id="show-final-message">See the full message</button>
+          </div>
+        </div>
+      </main>
+
+      <main class="screen" id="final-screen">
+        <div class="card final-card">
+          <p class="eyebrow">For the final part</p>
+          <h2>Keep this for the final part!</h2>
+
+          <div class="final-words" aria-live="polite">
+            <span>EIGHT</span>
+            <span>DAYS</span>
+          </div>
+
+          <p class="final-note">You’ve solved the clues. Save this for the final part.</p>
+        </div>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
