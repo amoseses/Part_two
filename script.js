@@ -13,26 +13,28 @@ const screens = {
 const state = {
   currentCode: '',
   currentScreen: 'opening',
-  moveOne: 0,
-  moveTwo: 0,
   boardOne: [],
   boardTwo: [],
+  moveOne: 0,
+  moveTwo: 0,
   puzzleOneSolved: false,
   puzzleTwoSolved: false,
 };
 
 const starContainer = document.querySelector('.stars');
 const feedbackBox = document.getElementById('passcode-feedback');
-const digitSlots = Array.from(document.querySelectorAll('.digit-slot'));
+const digitSlots = document.querySelectorAll('.digit-slot');
 
-const PHOTO_ONE = 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80';
-const PHOTO_TWO = 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1200&q=80';
+// Use the actual photos from the repo assets
+const PHOTO_ONE = './assets/IMG_4509.JPG';
+const PHOTO_TWO = './assets/IMG_5309.JPG';
 
 function setScreen(name) {
-  Object.entries(screens).forEach(([key, element]) => {
-    element.classList.toggle('active', key === name);
-  });
-  state.currentScreen = name;
+  Object.values(screens).forEach(s => s.classList.remove('active'));
+  if (screens[name]) {
+    screens[name].classList.add('active');
+    state.currentScreen = name;
+  }
 }
 
 function createStars() {
@@ -85,7 +87,7 @@ function validatePasscode() {
       setScreen('puzzleOne');
     }, 500);
   } else {
-    feedbackBox.textContent = 'Not quite—try again. The code is hidden in your memories.';
+    feedbackBox.textContent = 'Not quite—try again. The code is from Part One.';
     feedbackBox.style.color = '#ffd1d1';
     state.currentCode = '';
     updateCodeDisplay();
@@ -93,7 +95,7 @@ function validatePasscode() {
 }
 
 function addKeypadListeners() {
-  document.querySelectorAll('.key').forEach((key) => {
+  document.querySelectorAll('.key').forEach(key => {
     key.addEventListener('click', () => {
       const value = key.dataset.value;
       const action = key.dataset.action;
@@ -103,11 +105,11 @@ function addKeypadListeners() {
     });
   });
 
-  document.addEventListener('keydown', (event) => {
+  document.addEventListener('keydown', e => {
     if (state.currentScreen !== 'passcode') return;
-    if (/^[0-9]$/.test(event.key)) handlePasscodeInput(event.key);
-    if (event.key === 'Backspace') handleBackspace();
-    if (event.key === 'Escape') handleClear();
+    if (/^[0-9]$/.test(e.key)) handlePasscodeInput(e.key);
+    if (e.key === 'Backspace') handleBackspace();
+    if (e.key === 'Escape') handleClear();
   });
 }
 
@@ -125,7 +127,6 @@ function getValidMoves(index, size) {
 function makeShuffledBoard(size) {
   const values = Array.from({ length: size * size }, (_, i) => i + 1);
   values.push(0);
-
   const board = [...values];
   let emptyIndex = board.indexOf(0);
 
@@ -192,10 +193,10 @@ function handleBoardMove(index, containerId) {
     renderBoard(board, 3, PHOTO_ONE, 'puzzle-one-board');
 
     if (isSolved(board)) {
+      state.puzzleOneSolved = true;
       setTimeout(() => {
-        state.puzzleOneSolved = true;
-        setScreen('puzzleTwo');
         initPuzzleTwo();
+        setScreen('puzzleTwo');
       }, 550);
     }
   } else {
@@ -229,11 +230,11 @@ function bindEvents() {
   document.getElementById('restart-two').addEventListener('click', initPuzzleTwo);
 
   document.getElementById('hint-one').addEventListener('click', () => {
-    alert('Try to complete the edges first and then work toward the center.');
+    alert('Try to complete the edges first, then work toward the center.');
   });
 
   document.getElementById('hint-two').addEventListener('click', () => {
-    alert('The board is shuffled. Start with the border pieces and build outward.');
+    alert('Start with the corners and edges, then build inward. You\'re so close!');
   });
 }
 
