@@ -107,9 +107,11 @@ function getValidMoves(index, size) {
   return moves;
 }
 
+// FIXED: Create correct number of tiles (size*size total, including the empty slot)
 function makeShuffledBoard(size) {
-  const values = Array.from({ length: size * size }, (_, i) => i + 1);
-  values.push(0);
+  const values = Array.from({ length: size * size - 1 }, (_, i) => i + 1);
+  values.push(0); // Add empty slot (total = size * size)
+  
   const board = [...values];
   let emptyIndex = board.indexOf(0);
 
@@ -123,21 +125,12 @@ function makeShuffledBoard(size) {
   return board;
 }
 
-// Check if all pieces are in correct positions (comparing board state)
-function checkPuzzleCompletion(board, size) {
-  for (let i = 0; i < board.length - 1; i++) {
-    if (board[i] !== i + 1) {
-      console.log(`Piece ${board[i]} at position ${i}, should be ${i + 1}`);
-      return false;
-    }
-  }
-  // Empty space (0) should be at the end
-  if (board[board.length - 1] !== 0) {
-    console.log('Empty space not at end');
-    return false;
-  }
-  console.log('All pieces in correct positions!');
-  return true;
+// FIXED: Correctly check if puzzle is solved
+function isSolved(board) {
+  return board.every((value, index) => {
+    if (index === board.length - 1) return value === 0;
+    return value === index + 1;
+  });
 }
 
 function renderBoard(board, size, imageSrc, containerId) {
@@ -153,9 +146,6 @@ function renderBoard(board, size, imageSrc, containerId) {
     tile.style.height = `${tileSize}%`;
     tile.style.left = `${(index % size) * tileSize}%`;
     tile.style.top = `${Math.floor(index / size) * tileSize}%`;
-    
-    // Assign the correct number to this piece
-    tile.dataset.correctNumber = value;
 
     if (value === 0) {
       tile.classList.add('empty');
@@ -186,29 +176,12 @@ function handleBoardMove(index, containerId) {
   if (containerId === 'puzzle-one-board') {
     state.moveOne += 1;
     document.getElementById('moves-one').textContent = String(state.moveOne);
-    renderBoard(board, 3, PHOTO_ONE, 'puzzle-one-board');
-
-    // Continuous check for completion
-    if (checkPuzzleCompletion(board, 3)) {
-      console.log('Puzzle One Solved! Moving to Puzzle Two...');
-      setTimeout(() => {
-        initPuzzleTwo();
-        setScreen('puzzleTwo');
-      }, 550);
-    }
   } else {
     state.moveTwo += 1;
     document.getElementById('moves-two').textContent = String(state.moveTwo);
-    renderBoard(board, 4, PHOTO_TWO, 'puzzle-two-board');
-
-    // Continuous check for completion
-    if (checkPuzzleCompletion(board, 4)) {
-      console.log('Puzzle Two Solved! Moving to final screen...');
-      setTimeout(() => {
-        setScreen('final');
-      }, 550);
-    }
   }
+
+  renderBoard(board, size, imageSrc, containerId);
 }
 
 function initPuzzleOne() {
@@ -225,10 +198,51 @@ function initPuzzleTwo() {
   renderBoard(state.boardTwo, 4, PHOTO_TWO, 'puzzle-two-board');
 }
 
+// NEW: Check puzzle one solution on button click
+function checkPuzzleOne() {
+  console.log('Checking Puzzle One solution...');
+  if (isSolved(state.boardOne)) {
+    console.log('✓ Puzzle One is solved!');
+    setTimeout(() => {
+      initPuzzleTwo();
+      setScreen('puzzleTwo');
+    }, 300);
+  } else {
+    console.log('✗ Puzzle One not solved yet');
+    alert('Not quite there yet! Keep working on the puzzle.');
+  }
+}
+
+// NEW: Check puzzle two solution on button click
+function checkPuzzleTwo() {
+  console.log('Checking Puzzle Two solution...');
+  if (isSolved(state.boardTwo)) {
+    console.log('✓ Puzzle Two is solved!');
+    setTimeout(() => {
+      setScreen('final');
+    }, 300);
+  } else {
+    console.log('✗ Puzzle Two not solved yet');
+    alert('Not quite there yet! Keep working on the puzzle.');
+  }
+}
+
 function bindEvents() {
   document.getElementById('open-clue-button').addEventListener('click', () => setScreen('passcode'));
   document.getElementById('restart-one').addEventListener('click', initPuzzleOne);
   document.getElementById('restart-two').addEventListener('click', initPuzzleTwo);
+
+  // NEW: Add submit button listeners
+  const submitOne = document.getElementById('submit-one');
+  const submitTwo = document.getElementById('submit-two');
+
+  if (submitOne) {
+    submitOne.addEventListener('click', checkPuzzleOne);
+  }
+
+  if (submitTwo) {
+    submitTwo.addEventListener('click', checkPuzzleTwo);
+  }
 }
 
 function init() {
