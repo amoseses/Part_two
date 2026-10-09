@@ -176,6 +176,7 @@ function handleBoardMove(index, containerId) {
     renderBoard(board, 3, PHOTO_ONE, 'puzzle-one-board');
 
     if (isSolved(board)) {
+      console.log('Puzzle One Solved!');
       setTimeout(() => {
         initPuzzleTwo();
         setScreen('puzzleTwo');
@@ -187,7 +188,10 @@ function handleBoardMove(index, containerId) {
     renderBoard(board, 4, PHOTO_TWO, 'puzzle-two-board');
 
     if (isSolved(board)) {
-      setTimeout(() => setScreen('final'), 550);
+      console.log('Puzzle Two Solved!');
+      setTimeout(() => {
+        setScreen('final');
+      }, 550);
     }
   }
 }
